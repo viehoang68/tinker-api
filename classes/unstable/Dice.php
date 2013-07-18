@@ -58,6 +58,13 @@
 			require_once "./classes/".VERSION."/external/eos/eos.class.php";
 			require_once "./classes/".VERSION."/external/eos/stack.class.php";
 			require_once "./classes/".VERSION."/Irc.php";
+			
+			$pieces = explode(" ",$_GET['dice_string'], 2);
+			$fluff = "";
+			if( count($pieces) == 2 ) {
+				$_GET['dice_string'] = $pieces[0];
+				$fluff = $pieces[1];
+			}
 
 			$regex = '/[^\+^\-^\^^\)^\(^\*^ ]*d[^\+^\-^\^^\)^\(^\*^ ]*/';
 			preg_match_all($regex, $_GET['dice_string'], $dice, PREG_PATTERN_ORDER);
@@ -115,7 +122,7 @@
 			}	
 			echo json_encode(
 				array(
-					"string" => $formatted_string,
+					"string" => $formatted_string." ".$fluff,
 					"roll_results" => $roll_results,
 					"equation" => $equation,
 					"result" => $result
